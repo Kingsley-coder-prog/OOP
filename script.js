@@ -1,5 +1,5 @@
 'use strict';
-
+/*
 const Person = function (firstName, birthYear) {
   // Instance properties
   this.firstName = firstName;
@@ -25,6 +25,15 @@ console.log(matilda, jack);
 
 console.log(jonas instanceof Person);
 
+// STATIC METHOD
+Person.hey = function () {
+  console.log('Hey there 🖐');
+  console.log(this);
+};
+Person.hey();
+
+////////////////////////////////////////////////////////
+// Prototypes
 console.log(Person.prototype);
 
 Person.prototype.calcAge = function () {
@@ -114,13 +123,14 @@ class PersonCl {
     this.birthYear = birthYear;
   }
 
+  // Instance methods
   // Method will be added to .prototype property
   calcAge() {
     console.log(2037 - this.birthYear);
   }
 
   greet() {
-    console.log(`Hey ${this.firstName}`);
+    console.log(`Hey ${this.fullName}`);
   }
 
   get age() {
@@ -136,6 +146,12 @@ class PersonCl {
 
   get fullName() {
     return this._fullName;
+  }
+
+  // Static method
+  static hey() {
+    console.log('Hey there 🖐');
+    console.log(this);
   }
 }
 
@@ -160,6 +176,7 @@ console.log(jessica.age);
 jessica.greet();
 
 // const walter = new PersonCl('Walter');
+PersonCl.hey();
 
 // SETTER AND GETTERS
 const account = {
@@ -179,3 +196,98 @@ console.log(account.latest);
 
 account.latest = 50;
 console.log(account.movements);
+*/
+
+/////////////////////////////////////////////////////////
+// Object.create
+const PersonProto = {
+  calcAge() {
+    console.log(2037 - this.birthYear);
+  },
+  init(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  },
+};
+
+const steven = Object.create(PersonProto);
+
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 2002;
+steven.calcAge();
+
+console.log(steven.__proto__ === PersonProto);
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 1979);
+sarah.calcAge();
+
+///////////////////////////////////////////////////////////
+// Coding Challenge #2
+
+class CarCl {
+  constructor(make, speed) {
+    this.make = make;
+    this.speed = speed;
+  }
+
+  accelerate() {
+    this.speed += 10;
+    console.log(`${this.make} is going at ${this.speed}km/hr`);
+  }
+  brake() {
+    this.speed -= 5;
+    console.log(`${this.make} is going at ${this.speed}km/hr`);
+  }
+
+  get speedUs() {
+    return this.speed / 1.6;
+  }
+
+  set speedUs(speed) {
+    this.speed = speed * 1.6;
+  }
+}
+
+const ford = new CarCl('Ford', 120);
+console.log(ford.speedUs);
+ford.accelerate();
+ford.accelerate();
+ford.brake();
+ford.speedUs = 50;
+console.log(ford);
+
+// class CarCl {
+//   constructor(make, speed) {
+//     this.make = make;
+//     this.speed = speed;
+//   }
+
+//   accelerate() {
+//     this.speed += 10;
+//     console.log(`${this.make} is moving at ${this.speed}km/hr`);
+//   }
+
+//   brake() {
+//     this.speed -= 5;
+//     console.log(`${this.make} is moving at ${this.speed}km/hr`);
+//   }
+
+//   get speedUs() {
+//     return `${this.speed / 1.6}mi/h`;
+//   }
+
+//   set speedUs(speed) {
+//     return `${speed}mi/h`;
+//   }
+// }
+
+// const ford = new CarCl('Ford', 120);
+// console.log(ford);
+// console.log(ford.__proto__ === CarCl.prototype);
+// ford.accelerate();
+// ford.brake();
+// console.log(CarCl.speedUs);
+// CarCl.speedUs = this.speed * 1.6;
+// console.log(CarCl.speed);
