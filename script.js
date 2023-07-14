@@ -69,3 +69,29 @@ console.dir(h1);
 
 // prototype in functions
 console.dir(x => x + 1);
+
+// Coding Challenge #1
+
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+const bmw = new Car('BMW', 120);
+const mercedes = new Car('Mercedes', 95);
+console.log(bmw);
+
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed}km/hr`);
+};
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed}km/hr`);
+};
+bmw.accelerate();
+mercedes.accelerate();
+bmw.brake();
+mercedes.brake();
+console.log(bmw instanceof Car);
+console.log(mercedes instanceof Car);
