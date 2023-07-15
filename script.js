@@ -225,7 +225,7 @@ sarah.calcAge();
 
 ///////////////////////////////////////////////////////////
 // Coding Challenge #2
-
+/*
 class CarCl {
   constructor(make, speed) {
     this.make = make;
@@ -257,37 +257,40 @@ ford.accelerate();
 ford.brake();
 ford.speedUs = 50;
 console.log(ford);
+*/
+/////////////////////////////////////////////////////////
+// Inheritance between "classes": constructor function
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
 
-// class CarCl {
-//   constructor(make, speed) {
-//     this.make = make;
-//     this.speed = speed;
-//   }
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
 
-//   accelerate() {
-//     this.speed += 10;
-//     console.log(`${this.make} is moving at ${this.speed}km/hr`);
-//   }
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
 
-//   brake() {
-//     this.speed -= 5;
-//     console.log(`${this.make} is moving at ${this.speed}km/hr`);
-//   }
+// Linking prototypes
+Student.prototype = Object.create(Person.prototype);
 
-//   get speedUs() {
-//     return `${this.speed / 1.6}mi/h`;
-//   }
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
 
-//   set speedUs(speed) {
-//     return `${speed}mi/h`;
-//   }
-// }
+const mike = new Student('Mike', 2020, 'Computer Science');
+mike.introduce();
+mike.calcAge();
 
-// const ford = new CarCl('Ford', 120);
-// console.log(ford);
-// console.log(ford.__proto__ === CarCl.prototype);
-// ford.accelerate();
-// ford.brake();
-// console.log(CarCl.speedUs);
-// CarCl.speedUs = this.speed * 1.6;
-// console.log(CarCl.speed);
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+
+console.log(mike instanceof Student);
+console.log(mike instanceof Person);
+console.log(mike instanceof Object);
+
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor);
