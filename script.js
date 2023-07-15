@@ -294,3 +294,60 @@ console.log(mike instanceof Object);
 
 Student.prototype.constructor = Student;
 console.dir(Student.prototype.constructor);
+
+// Coding Challenge #4
+const Car = function (make, speed) {
+  this.make = make;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  this.speed += 10;
+  console.log(`${this.make} is going at ${this.speed}km/hr`);
+};
+Car.prototype.brake = function () {
+  this.speed -= 5;
+  console.log(`${this.make} is going at ${this.speed}km/hr`);
+};
+
+const EV = function (make, speed, charge) {
+  Car.call(this, make, speed);
+  this.charge = charge;
+};
+
+// Link the prototype
+EV.prototype = Object.create(Car.prototype);
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+  console.log(chargeTo);
+};
+
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge -= 1 / 100;
+  console.log(
+    `${this.make} is going at ${this.speed}km/h, with a charge of ${this.charge} `
+  );
+};
+
+const tesla = new EV('Tesla', 120, 23 / 100);
+tesla.chargeBattery(90 / 100);
+console.log(tesla);
+tesla.brake();
+tesla.accelerate();
+
+// Car.prototype.accelerate = function () {
+//   this.speed += 10;
+//   console.log(`${this.make} is going at ${this.speed}km/hr`);
+// };
+// Car.prototype.brake = function () {
+//   this.speed -= 5;
+//   console.log(`${this.make} is going at ${this.speed}km/hr`);
+// };
+// bmw.accelerate();
+// mercedes.accelerate();
+// bmw.brake();
+// mercedes.brake();
+// console.log(bmw instanceof Car);
+// console.log(mercedes instanceof Car);
